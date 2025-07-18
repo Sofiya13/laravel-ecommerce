@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Product;
 
 class ProductController extends Controller
@@ -13,16 +14,16 @@ class ProductController extends Controller
         return view('user.shop.index', compact('products'));
     }
 
-    public function home()
+     public function home(Request $request)
     {
-        $products = Product::latest()->get();
+        $query = Product::query();
+
+        if ($request->filled('product_name')) {
+            $query->where('product_name', 'LIKE', '%' . $request->product_name . '%');
+        }
+
+        $products = $query->get();
+
         return view('user.home', compact('products'));
     }
-    
-    public function show($id)
-    {
-        $product = Product::findOrFail($id);
-        return view('user.shop.show', compact('product'));
-    }
 }
-

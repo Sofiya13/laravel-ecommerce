@@ -41,8 +41,8 @@
         <h2 class="text-center mb-4">Admin Panel</h2>
         <a href="{{ route('admin.dashboard') }}">Dashboard</a>
         <a href="{{ route('products.index') }}">Manage Products</a>
-        <a href="#">Manage Users</a>
-        <a href="#">Orders</a>
+        <a href="{{ route('admin.cart.index') }}">View Cart</a>
+        
         <a href="{{ route('logout') }}" 
            onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">

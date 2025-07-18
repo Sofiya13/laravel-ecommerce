@@ -66,7 +66,6 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('images')) {
-        // Delete old images from storage
         if ($product->images) {
             foreach ($product->images as $img) {
                 Storage::disk('public')->delete($img);

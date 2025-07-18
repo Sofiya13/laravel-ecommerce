@@ -5,7 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\User\ProductController as UserProductController;
 use App\Http\Controllers\User\CartController;
-
+use App\Http\Controllers\Admin\CartController as AdminCartController;
 
 // ✅ Authentication routes (Laravel Breeze provides these)
 require __DIR__.'/auth.php';
@@ -29,11 +29,11 @@ Route::middleware('auth')->group(function () {
 */
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin', function () {
-        return view('admin.dashboard'); // Make sure this view exists
+        return view('admin.dashboard'); 
     })->name('admin.dashboard');
-
-    // Admin product management
     Route::resource('admin/products', ProductController::class);
+Route::get('/admin/cart', [AdminCartController::class, 'index'])->name('admin.cart.index');
+
 });
 
 /*
@@ -42,15 +42,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:user'])->group(function () {
-    // ✅ Home page for user (list products + add to cart)
     Route::get('/', [UserProductController::class, 'home'])->name('home');
 
-    // ✅ User dashboard (optional)
     Route::get('/user', function () {
         return "Please remove the /user from the URL to view the shopping page and enjoy the shopping!!!";
     })->name('user');
-
-    // ✅ Cart Routes
      Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
     Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
